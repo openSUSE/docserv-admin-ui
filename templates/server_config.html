@@ -1,0 +1,17 @@
+<html>
+    <style>
+        table {border: 1px solid black;}
+    </style>
+    <title>Docserv Configuration</title>
+    <body>
+        <h1>Docserv Configuration</h1>
+        <table>
+            {% for key in docserv_conf_dict %}
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{docserv_conf_dict[key]}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

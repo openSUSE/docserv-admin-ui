@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import ini_parse
 import xmlconfig_algo
 
@@ -11,8 +11,8 @@ def startpage():
 
 @app.route("/server_config")
 def server_config_page():
-    return str(ini_parse.get_docserv_config())
-    return "This is the page for the server configuration."
+    docserv_config_dict = ini_parse.get_docserv_config()
+    return render_template("buildserver_config.html", docserv_conf_dict=docserv_config_dict)
 
 @app.route("/documentation_config")
 def doc_config_page():
