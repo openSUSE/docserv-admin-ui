@@ -7,7 +7,7 @@ app = Flask(__name__)
 # basic routes
 @app.route("/")
 def startpage():
-    return "This is the startpage of the DocServ Admin UI!"
+    return render_template("start_page.html")
 
 @app.route("/server_config")
 def server_config_page():
