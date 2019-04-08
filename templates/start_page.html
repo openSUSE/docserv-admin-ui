@@ -3,13 +3,19 @@
             <title>Docserv Admin UI - Main page</title>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
     </head>
     <body>
-        <h1>Docserv Admin UI</h1>
-                <a href="/server_config">Buildserver Configuration</a>
-                <a href="/documentation_config">Documentation Configuration</a>
-                {% for product in products %}
-                    <a href="/{{product.lower()}}">{{product}}</a>
-                {% endfor %}
+        <div id="sidebar">
+            <a href="/server_config">Buildserver Configuration</a>
+            <a href="/documentation_config">Documentation Configuration</a>
+            {% for product in products %}
+                <a href="/{{product.lower()}}">{{product}}</a>
+            {% endfor %}
+        </div>
+
+        <div id="main">
+            <h1>Docserv Admin UI</h1>
+        </div>
     </body>
 </html>
