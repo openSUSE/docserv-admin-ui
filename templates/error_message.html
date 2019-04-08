@@ -1,6 +1,6 @@
 <html>
     <head>
-            <title>Docserv Admin UI - Main page</title>
+            <title>Docserv Admin UI - Error</title>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
@@ -14,18 +14,7 @@
         </div>
 
         <div id="main">
-            <h1>Docserv Admin UI</h1>
-
-            <!--table for the buildserver configuration-->
-            <h2>Current Buildserver Configuration</h2>
-            <table>
-                {% for key in buildserver_config %}
-                    <tr>
-                        <td>{{key}}</td>
-                        <td>{{buildserver_config[key]}}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+           <p>Configuration for product {{product_name}} not found.</p>
         </div>
     </body>
 </html>

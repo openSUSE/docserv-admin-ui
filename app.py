@@ -36,9 +36,11 @@ def doc_config_page():
 @app.route('/<name>')
 def shortname_page(name):
         if name.upper() in product_names:
-            return 'Hello, this is a page for {}'.format(name)
+            product_tree = xmlconfig_algo.get_tree(name)
+            product_dict = xmlconfig_algo.get_xml_conf_dict(product_tree)
+            return render_template("documentation_config.html", doc_dict=product_dict, products=product_names)
         else:
-            return "No page for product {} found.".format(name)
+            return render_template("error_message.html", products=product_names, product_name=name)
 
 
 # let the app run when app.py is executed

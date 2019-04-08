@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Documentation Config</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
+    </head>
+    <body>
+        <div id="sidebar">
+            {% for product in products %}
+                <a href="/{{product.lower()}}">{{product}}</a>
+            {% endfor %}
+        </div>
+
+
+        <div id="main">
+            <h1>Documentation Configuration</h1>
+            <table>
+                {% for key in doc_dict %}
+                <tr>
+                    <td>{{key}}</td>
+                    <td>{{doc_dict[key]}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+<html>
