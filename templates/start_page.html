@@ -1,8 +1,15 @@
 <html>
-    <title>Docserv Admin UI</title>
+    <head>
+            <title>Docserv Admin UI - Main page</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
     <body>
         <h1>Docserv Admin UI</h1>
-        <a href="/server_config">Buildserver Configuration</a>
-        <a href="/documentation_config">Documentation Configuration</a>
+                <a href="/server_config">Buildserver Configuration</a>
+                <a href="/documentation_config">Documentation Configuration</a>
+                {% for product in products %}
+                    <a href="/{{product.lower()}}">{{product}}</a>
+                {% endfor %}
     </body>
 </html>

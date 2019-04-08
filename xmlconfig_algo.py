@@ -1,5 +1,4 @@
 from lxml import etree
-import json
 
 # open XML file and get the tree
 def get_tree():
@@ -82,7 +81,7 @@ def get_xml_conf_dict(tree):
     xml_conf_dict['docsets'] = docset_dict
 
     # return the xml config dictionary
-    return json.dumps(xml_conf_dict, indent=1)
+    return xml_conf_dict
 
 # DEBUGGING STUFF
 
