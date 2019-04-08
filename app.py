@@ -23,7 +23,8 @@ for file in os.listdir(doc_config_dir):
 # basic routes
 @app.route("/")
 def startpage():
-    return render_template("start_page.html", products=product_names)
+    buildserver_config_dict = ini_parse.get_docserv_config()
+    return render_template("start_page.html", products=product_names, buildserver_config=buildserver_config_dict)
 
 @app.route("/server_config")
 def server_config_page():

@@ -5,9 +5,13 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
     </head>
+
+    <style>
+        table {border: 1px solid black;}
+    </style>
+
     <body>
         <div id="sidebar">
-            <a href="/server_config">Buildserver Configuration</a>
             <a href="/documentation_config">Documentation Configuration</a>
             {% for product in products %}
                 <a href="/{{product.lower()}}">{{product}}</a>
@@ -16,6 +20,17 @@
 
         <div id="main">
             <h1>Docserv Admin UI</h1>
+
+            <!--table for the buildserver configuration-->
+            <h2>Current Buildserver Configuration</h2>
+            <table>
+                {% for key in buildserver_config %}
+                    <tr>
+                        <td>{{key}}</td>
+                        <td>{{buildserver_config[key]}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
     </body>
 </html>
