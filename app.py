@@ -26,16 +26,11 @@ def startpage():
     buildserver_config_dict = ini_parse.get_docserv_config()
     return render_template("start_page.html", products=product_names, buildserver_config=buildserver_config_dict)
 
-@app.route("/server_config")
-def server_config_page():
-    docserv_config_dict = ini_parse.get_docserv_config()
-    return render_template("buildserver_config.html", docserv_conf_dict=docserv_config_dict)
-
 @app.route("/documentation_config")
 def doc_config_page():
     tree = xmlconfig_algo.get_tree()
     dict = xmlconfig_algo.get_xml_conf_dict(tree)
-    return render_template("documentation_config.html", doc_dict=dict)
+    return render_template("documentation_config.html", doc_dict=dict, products=product_names)
 
 # route for every product
 @app.route('/<name>')
