@@ -3,6 +3,7 @@ import ini_parse
 import xmlconfig_algo
 import os
 from lxml import etree
+import sys
 
 # creating the app handler
 app = Flask(__name__)
@@ -14,9 +15,9 @@ for file in os.listdir(doc_config_dir):
     # parse the xml_file and get the actual shortname of the product
     try:
         file_tree = etree.parse(doc_config_dir+file)
-        shortname = file_tree.xpath("./shortname")[0].text
+        shortname = file_tree.xpath("./shortname")[0].text #remove './'
         # add the product shortname to the list of productnames
-        product_names.append(file_tree.xpath("./shortname")[0].text)
+        product_names.append(file_tree.xpath("./shortname")[0].text.lower())
     except etree.XMLSyntaxError:
         print(f'{file} is no valid XML file.')
 
@@ -35,7 +36,7 @@ def doc_config_page():
 # route for every product
 @app.route('/<name>')
 def shortname_page(name):
-        if name.upper() in product_names:
+        if name.lower() in product_names:
             product_tree = xmlconfig_algo.get_tree(name)
             product_dict = xmlconfig_algo.get_xml_conf_dict(product_tree)
             return render_template("documentation_config.html", doc_dict=product_dict, products=product_names)

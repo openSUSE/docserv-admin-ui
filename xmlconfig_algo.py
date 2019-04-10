@@ -2,6 +2,7 @@ from lxml import etree
 
 # open XML file and get the tree
 def get_tree(name):
+    name = name.lower()
     xml_file = open(f'docserv-config/config.d/{name}.xml', 'r')
     config_tree = etree.parse(xml_file)
     return config_tree
@@ -83,8 +84,3 @@ def get_xml_conf_dict(tree):
     # return the xml config dictionary
     return xml_conf_dict
 
-# DEBUGGING STUFF
-
-#xml_tree = get_tree()
-#xml_dict = get_xml_conf_dict(xml_tree)
-#print(yaml.dump(xml_dict, allow_unicode=True, default_flow_style=False))
