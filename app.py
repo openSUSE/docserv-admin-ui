@@ -43,6 +43,11 @@ def shortname_page(name):
         else:
             return render_template("error_message.html", products=product_names, product_name=name)
 
+@app.route('/<name>-<version>')
+def shortname_version_page(name, version):
+   product_tree = xmlconfig_algo.get_tree(name)
+   product_dict = xmlconfig_algo.get_xml_conf_dict(product_tree)
+   return "hello world!"
 
 # let the app run when app.py is executed
 if __name__ == "__main__":

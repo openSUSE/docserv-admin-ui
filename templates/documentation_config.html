@@ -14,15 +14,39 @@
 
 
         <div id="main">
-            <h1>Documentation Configuration</h1>
-            <table>
-                {% for key in doc_dict %}
-                <tr>
-                    <td>{{key}}</td>
-                    <td>{{doc_dict[key]}}</td>
-                </tr>
+
+            <!--display the maintainers-->
+            <p>
+                <h1>{{doc_dict['productname']}}</h1>
+                <b>Maintainers:</b>
+                {% for maintainer in doc_dict['maintainers'] %}
+                    {{maintainer}}
                 {% endfor %}
-            </table>
+            </p>
+
+            <!--display the descriptions-->
+            <p>
+                <b>Descriptions:</b>
+                {% for key, value in doc_dict['descriptions'].items() %}
+                    <details>
+                        <summary>
+                            {{key}}
+                        </summary>
+                        <p>
+                            {{value['desc_text']}}
+                        </p>
+                    </details>
+                {% endfor %}
+            </p>
+
+            <!--display the versions-->
+            <b>Versions:</b>
+            {% for version in doc_dict['docsets'] %}
+            <p>
+                <a href='{{doc_dict["shortname"]}}-{{version}}'>{{version}}</a>
+            </p>
+            {% endfor %}
+
         </div>
     </body>
 <html>

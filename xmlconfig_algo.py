@@ -11,6 +11,9 @@ def get_tree(name):
 def get_xml_conf_dict(tree):
     xml_conf_dict = {}
 
+    #get shortname
+    xml_conf_dict['shortname'] = tree.xpath('/product/shortname')[0].text
+
     # get product name
     xml_conf_dict['productname'] = tree.xpath('/product/name')[0].text
 
