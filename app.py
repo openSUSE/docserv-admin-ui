@@ -4,17 +4,17 @@ import xmlconfig_algo
 import os
 from lxml import etree
 import sys
+import config
 
 # creating the app handler
 app = Flask(__name__)
 
 # get the product names for every documentation
 product_names = []
-doc_config_dir = "docserv-config/config.d/"
-for file in os.listdir(doc_config_dir):
+for file in os.listdir(config.product_xml_dir):
     # parse the xml_file and get the actual shortname of the product
     try:
-        file_tree = etree.parse(doc_config_dir+file)
+        file_tree = etree.parse(config.product_xml_dir+file)
         shortname = file_tree.xpath("./shortname")[0].text #remove './'
         # add the product shortname to the list of productnames
         product_names.append(file_tree.xpath("./shortname")[0].text.lower())

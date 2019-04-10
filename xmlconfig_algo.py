@@ -1,9 +1,10 @@
 from lxml import etree
+import config
 
 # open XML file and get the tree
 def get_tree(name):
     name = name.lower()
-    xml_file = open(f'docserv-config/config.d/{name}.xml', 'r')
+    xml_file = open(config.product_xml_dir + f'{name}.xml', 'r')
     config_tree = etree.parse(xml_file)
     return config_tree
 
