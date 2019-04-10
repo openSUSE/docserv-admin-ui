@@ -6,6 +6,7 @@
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
     </head>
     <body>
+
         <div id="sidebar">
             {% for product in products %}
                 <a href="/{{product.lower()}}">{{product}}</a>
@@ -48,5 +49,6 @@
             {% endfor %}
 
         </div>
+
     </body>
 <html>
