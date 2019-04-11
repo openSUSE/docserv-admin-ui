@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Config for {{product_name}} {{product_version}}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
+    </head>
+    <body>
+
+        <div id="sidebar">
+            {% for product in products %}
+                <a href="/{{product.lower()}}">{{product}}</a>
+            {% endfor %}
+        </div>
+
+
+        <div id="main">
+            <!--display version name-->
+           <h1>{{product_name}} {{product_version}}</h1>
+
+
+           <!--display Git URL-->
+           <p>
+                <b>Git URL: </b>{{docset['git_url']}}
+           </p>
+
+           <!--display Lifecycle-->
+           <p>
+                <b>Lifecycle: </b>{{docset['lifecycle']}}
+           </p>
+
+           <!--display languages-->
+           <p>
+               <b>Languages:</b>
+               {% for key, value in docset['language'].items() %}
+                    <details>
+
+                        <!--display branch-->
+                        <summary>{{key}}</summary>
+                        <p><b>Branch: </b>{{value['branch']}}</p>
+
+                        <!--display deliverables with formats-->
+                            <details>
+                                <summary><b>Deliverables:</b></summary>
+                                {% for deliv in value['deliverable'] %}
+                                    <p><b>{{deliv}}</b></p>
+                                    Format: {{value['deliverable'][deliv]['formats']}}
+                                {% endfor %}
+                            </details>
+
+                    </details>
+               {% endfor %}
+           </p>
+        </div>
+
+    </body>
+</html>

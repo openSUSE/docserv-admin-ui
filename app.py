@@ -20,7 +20,6 @@ for file in os.listdir(config.product_xml_dir):
         product_names.append(file_tree.xpath("./shortname")[0].text.lower())
     except etree.XMLSyntaxError:
         print(f'{file} is no valid XML file.')
-print(product_names)
 
 # basic routes
 @app.route("/")
@@ -49,7 +48,8 @@ def shortname_page(name):
 def shortname_version_page(name, version):
    product_tree = xmlconfig_algo.get_tree(name)
    product_dict = xmlconfig_algo.get_xml_conf_dict(product_tree)
-   return "hello world!"
+   docset = product_dict['docsets'][version]
+   return render_template("version_overview_page.html", docset=docset, products=product_names, product_name=name, product_version=version)
 
 # let the app run when app.py is executed
 if __name__ == "__main__":

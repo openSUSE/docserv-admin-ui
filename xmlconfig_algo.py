@@ -41,6 +41,14 @@ def get_xml_conf_dict(tree):
         version = docset[0].text
         docset_dict[version] = {}
 
+        # get major version
+        major_version = docset[0].text[:2]
+        docset_dict[version]['major_version'] = major_version
+
+        # get minor version
+        minor_version = docset[0].text.replace(' ','')[2:]
+        docset_dict[version]['minor_version'] = minor_version
+
         # get lifecycle
         docset_dict[version]['lifecycle'] = docset.attrib['lifecycle']
 
