@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Config for {{product_name}} {{product_version}}</title>
+        <title>Documentation Config</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
@@ -15,7 +15,13 @@
 
 
         <div id="main">
+            <h1>{{doc_dict['productname']}} {{mv}}</h1>
+            {% for version in doc_dict['docsets'] %}
+                {% if mv in doc_dict['docsets'][version]['major_version'] %}
+                    <p><a href="{{shortname}}-{{mv}}-{{doc_dict['docsets'][version]['minor_version']}}">{{version}}</a></p>
+                {% endif %}
+            {% endfor %}
         </div>
 
     </body>
-</html>
+<html>
