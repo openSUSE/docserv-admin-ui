@@ -7,14 +7,14 @@
     </head>
     <body>
 
-        <div id="sidebar">
+        <div class="sidebar">
             {% for product in products %}
                 <a href="/{{product.lower()}}">{{product}}</a>
             {% endfor %}
         </div>
 
 
-        <div id="main">
+        <div class="main">
             <h1>{{doc_dict['productname']}} {{mv}}</h1>
             {% for version in doc_dict['docsets'] %}
                 {% if mv in doc_dict['docsets'][version]['major_version'] %}

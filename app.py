@@ -66,10 +66,14 @@ def shortname_page(name):
 def shortname_major_version_page(name, major_version):
     product_tree = xmlconfig_algo.get_tree(name)
     product_dict = xmlconfig_algo.get_xml_conf_dict(product_tree)
-    product_shortname = product_dict['shortname'].lower()
     for version in product_dict['docsets']:
         if major_version in product_dict['docsets'][version]['major_version']:
-            return render_template("major_version_overview.html",products=product_names,doc_dict=product_dict,mv=major_version,shortname=product_shortname)
+            return render_template(
+                "major_version.html",
+                products=product_names,
+                doc_dict=product_dict,
+                mv=major_version,
+                shortname=product_dict['shortname'].lower())
 
 @app.route('/<name>-<major_version>-<minor_version>')
 def shortname_major_minor_version_page(name, major_version, minor_version):
@@ -78,7 +82,18 @@ def shortname_major_minor_version_page(name, major_version, minor_version):
    for version in product_dict['docsets']:
         if major_version in product_dict['docsets'][version]['major_version']:
             if minor_version in product_dict['docsets'][version]['minor_version']:
-                return render_template("version_overview_page.html",doc_dict=product_dict, products=product_names, product_name=name, product_version=version)
+                return render_template(
+                "major_minor_version.html",
+                doc_dict=product_dict,
+                products=product_names,
+                product_name=product_dict['productname'],
+                git_url=product_dict['docsets'][version]['git_url'],
+                lifecycle=product_dict['docsets'][version]['lifecycle'],
+                product_version=version,
+                shortname=product_dict['shortname'],
+                docset=product_dict['docsets'][version],
+                major=major_version,
+                minor=minor_version)
 
 # let the app run when app.py is executed
 if __name__ == "__main__":

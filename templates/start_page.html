@@ -7,13 +7,13 @@
     </head>
 
     <body>
-        <div id="sidebar">
+        <div class="sidebar">
             {% for product in products %}
                 <a href="/{{product.lower()}}">{{product}}</a>
             {% endfor %}
         </div>
 
-        <div id="main">
+        <div class="main">
             <h1>Docserv Admin UI</h1>
 
             <!--table for the buildserver configuration-->

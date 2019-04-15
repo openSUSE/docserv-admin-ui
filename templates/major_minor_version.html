@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Config for {{product_name}} {{product_version}}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
+    </head>
+    <body>
+
+        <div class="sidebar">
+            {% for product in products %}
+                <a href="/{{product.lower()}}">{{product}}</a>
+            {% endfor %}
+        </div>
+
+
+        <div class="main">
+            <ul>
+                <li><a href='/'>Main</a></li>
+                <li><a href='/{{shortname.lower()}}-{{major}}'>{{major}}</a></li>
+                <li>{{minor}}</li>
+            </ul>
+            <!--display metadata-->
+            <h1>{{product_name}} {{product_version}}</h1>
+            <p><b>Git Remote URL: </b></p>
+            <p><b>Lifecycle: </b> {{lifecycle}}</p>
+
+            <!--display the languages-->
+            {% for lang in docset['language'] %}
+
+            <details>
+                    <summary>{{lang}}</summary>
+                    <p><b>Branch:</b>{{doc_dict['docsets'][product_version]['language'][lang]['branch']}}</p>
+
+                    <!--display deliverables-->
+                    <details>
+                        <summary><b>Deliverables</b></summary>
+                        {% for deliv in doc_dict['docsets'][product_version]['language'][lang]['deliverable'] %}
+
+                            <!--display metadata for every deliverable-->
+                            <details>
+                                <summary>{{deliv}}</summary>
+                                <p><b>Formats: </b>{{doc_dict['docsets'][product_version]['language'][lang]['deliverable'][deliv]['formats']}}</p>
+
+                                <!--display subdeliverables-->
+                                <details>
+                                    <summary><b>Subdeliverables: </b></summary>
+                                    {%for subdeliv in doc_dict['docsets'][product_version]['language'][lang]['deliverable'][deliv]['subdeliverables']%}
+                                        <p>{{subdeliv}}</p>
+                                    {%endfor%}
+                                </details>
+                            </details>
+                        {% endfor %}
+                    </details>
+                </details>
+            {% endfor %}
+        </div>
+
+    </body>
+</html>
