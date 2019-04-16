@@ -37,10 +37,18 @@
                         <summary><b>Deliverables</b></summary>
                         {% for deliv in doc_dict['docsets'][product_version]['language'][lang]['deliverable'] %}
 
-                            <!--display metadata for every deliverable-->
+                            <!--display build button and metadata for every deliverable-->
                             <details>
                                 <summary>{{deliv}}</summary>
                                 <p><b>Formats: </b>{{doc_dict['docsets'][product_version]['language'][lang]['deliverable'][deliv]['formats']}}</p>
+
+                                <!--build up the docset_dict-->
+                                {% set docset_dict = {} %}
+                                {% do docset_dict.update({"docset": doc_dict['docsets'][product_version]['language'][lang]['branch']}) %}
+                                {% do docset_dict.update({"lang": lang}) %}
+                                {% do docset_dict.update({"product": shortname.lower()}) %}
+                                {% do docset_dict.update({"target": "test"}) %}
+                                <a href="{{url_for('build_docset', major=major, minor=minor, lang=lang, name=shortname.lower())}}">Build me.</a>
 
                                 <!--display subdeliverables-->
                                 <details>

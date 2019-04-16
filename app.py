@@ -6,9 +6,12 @@ from lxml import etree
 import sys
 import config
 from pprint import *
-
+import pycurl
+import json
+import requests
 # creating the app handler
 app = Flask(__name__)
+app.jinja_env.add_extension('jinja2.ext.do')
 
 # get the product names for every documentation
 product_names = []
@@ -94,6 +97,37 @@ def shortname_major_minor_version_page(name, major_version, minor_version):
                 docset=product_dict['docsets'][version],
                 major=major_version,
                 minor=minor_version)
+
+# send the curl command to build the documentation
+@app.route('/build_docset/<name>/<major>/<minor>/<lang>')
+def build_docset(name, major, minor, lang):
+    product_tree = xmlconfig_algo.get_tree(name)
+    product_dict = xmlconfig_algo.get_xml_conf_dict(product_tree)
+    for version in product_dict['docsets']:
+        print(version)
+        if major in product_dict['docsets'][version]['major_version']:
+            if minor in product_dict['docsets'][version]['minor_version']:
+                docset_dict = {}
+                docset_dict["lang"] = lang
+                docset_dict["product"] = product_dict['shortname'].lower()
+                docset_dict["target"] = "test"
+                docset_dict["docset"] = product_dict['docsets'][version]['language'][lang]['branch']
+                docset_list = [docset_dict]
+                new_docset_list = str(docset_list)
+                final_docset_list = new_docset_list.replace("'", "\"")
+                try:
+                    c = pycurl.Curl()
+                    c.setopt(pycurl.URL, 'http://localhost:3000')
+                    c.setopt(pycurl.HTTPHEADER, ['Accept: application/json'])
+                    c.setopt(pycurl.POSTFIELDS, final_docset_list)
+                    c.setopt(pycurl.POST, 1)
+                    c.setopt(pycurl.VERBOSE, 1)
+                    c.perform()
+                    print(pycurl.RESPONSE_CODE)
+                    c.close()
+                except pycurl.error:
+                    return "oh noes."
+
 
 # let the app run when app.py is executed
 if __name__ == "__main__":
