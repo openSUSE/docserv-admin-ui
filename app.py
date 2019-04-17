@@ -8,7 +8,10 @@ import config
 from pprint import *
 import pycurl
 import json
+import time
 import requests
+
+
 # creating the app handler
 app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.do')
@@ -36,13 +39,17 @@ def doc_config_page():
     tree = xmlconfig_algo.get_tree()
     xml_dict = xmlconfig_algo.get_xml_conf_dict(tree)
     prname = xml_dict['productname']
-    print("<<<<<<<<<<<<<<", prname)
     maintainers = xml_dict['maintainers']
     for version in doc_dict['docsets']:
         version_list.append(version)
 
     return render_template(
-        "documentation_config.html", productname=prname, maint_list=maintainers, doc_dict=xml_dict, products=product_names, ver_list = version_list)
+        "documentation_config.html",
+        productname=prname,
+        maint_list=maintainers,
+        doc_dict=xml_dict,
+        products=product_names,
+        ver_list = version_list)
 
 # route for every product
 @app.route('/<name>')
@@ -104,30 +111,77 @@ def build_docset(name, major, minor, lang):
     product_tree = xmlconfig_algo.get_tree(name)
     product_dict = xmlconfig_algo.get_xml_conf_dict(product_tree)
     for version in product_dict['docsets']:
-        print(version)
         if major in product_dict['docsets'][version]['major_version']:
             if minor in product_dict['docsets'][version]['minor_version']:
+
+                # build docset dictionary for building
                 docset_dict = {}
                 docset_dict["lang"] = lang
                 docset_dict["product"] = product_dict['shortname'].lower()
                 docset_dict["target"] = "test"
                 docset_dict["docset"] = product_dict['docsets'][version]['language'][lang]['branch']
                 docset_list = [docset_dict]
-                new_docset_list = str(docset_list)
-                final_docset_list = new_docset_list.replace("'", "\"")
+                new_docset_list = str(docset_list).replace("'", "\"")
+
+                # create curl command and try to send it to DocServ
                 try:
                     c = pycurl.Curl()
                     c.setopt(pycurl.URL, 'http://localhost:3000')
                     c.setopt(pycurl.HTTPHEADER, ['Accept: application/json'])
-                    c.setopt(pycurl.POSTFIELDS, final_docset_list)
+                    c.setopt(pycurl.POSTFIELDS, new_docset_list)
                     c.setopt(pycurl.POST, 1)
                     c.setopt(pycurl.VERBOSE, 1)
                     c.perform()
                     print(pycurl.RESPONSE_CODE)
                     c.close()
-                except pycurl.error:
-                    return "oh noes."
+                    #docserv_json = json.loads(config.docserv_json_file)
+                    return render_template('/queue.html')
+                except pycurl.error as err:
+                    return f"POST Request failed. {err}"
 
+@app.route('/queue')
+def show_queue():
+    building = []
+    fail = []
+    success = []
+    try:
+        while(True):
+            # fetch the JSON data from DocServ
+            r = requests.get('http://localhost:3000')
+            data = r.json()
+
+            # fill the status lists
+            for x in data[0]['deliverables']:
+                if data[0]['deliverables'][x]['status'] == 'building':
+                    building.append({
+                        'dc': data[0]['deliverables'][x]['dc'],
+                        'status': data[0]['deliverables'][x]['status'],
+                        'format': data[0]['deliverables'][x]['build_format'],
+                        'title': data[0]['deliverables'][x]['title']})
+                if data[0]['deliverables'][x]['status'] == 'fail':
+                    fail.append({
+                        'dc': data[0]['deliverables'][x]['dc'],
+                        'status': data[0]['deliverables'][x]['status'],
+                        'format': data[0]['deliverables'][x]['build_format'],
+                        'title': data[0]['deliverables'][x]['title']})
+                if data[0]['deliverables'][x]['status'] == 'success':
+                    success.append({
+                        'dc': data[0]['deliverables'][x]['dc'],
+                        'status': data[0]['deliverables'][x]['status'],
+                        'format': data[0]['deliverables'][x]['build_format'],
+                        'title': data[0]['deliverables'][x]['title']})
+
+            # render the queue page with the status data
+            return render_template(
+                "/build_queue.html",
+                building=building,
+                fail=fail,
+                success=success,
+                products=product_names)
+
+            time.sleep(30)
+    except requests.ConnectionError:
+        return "No JSON file from DocServ available. Make sure that DocServ is running.."
 
 # let the app run when app.py is executed
 if __name__ == "__main__":

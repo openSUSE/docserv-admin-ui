@@ -1,0 +1,53 @@
+<html>
+    <head>
+            <title>Docserv Admin UI - Build Queue</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <!--refresh the page every 10 seconds-->
+            <meta http-equiv="refresh" content="10" >
+            <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/css_styling.css') }}">
+    </head>
+
+    <div class="sidebar">
+        {% for product in products %}
+            <a href="/{{product.lower()}}">{{product}}</a>
+        {% endfor %}
+    </div>
+
+    <div class='main'>
+    <body>
+        <h1>Docserv Admin UI - Build Queue</h1>
+        <table>
+
+            <th>DC</th>
+            <th>Title</th>
+            <th>Format</th>
+            <th>Status</th>
+            {% for deliv in success: %}
+                <tr>
+                    <td>{{deliv['dc']}}</td>
+                    <td>{{deliv['title']}}</td>
+                    <td>{{deliv['format']}}</td>
+                    <td>{{deliv['status']}}</td>
+                </tr>
+            {% endfor %}
+            {% for deliv in building: %}
+                <tr>
+                    <td>{{deliv['dc']}}</td>
+                    <td>Not available yet</td>
+                    <td>{{deliv['format']}}</td>
+                    <td>{{deliv['status']}}</td>
+                </tr>
+            {% endfor %}
+            {% for deliv in fail: %}
+                <tr>
+                    <td>{{deliv['dc']}}</td>
+                    <td>{{deliv['title']}}</td>
+                    <td>{{deliv['format']}}</td>
+                    <td>{{deliv['status']}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+    </div>
+</html>
