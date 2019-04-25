@@ -41,6 +41,7 @@ def get_xml_conf_dict(tree):
         version = docset[0].text
         docset_dict[version] = {}
 
+
         # get major version
         major_version = docset[0].text[:2]
         docset_dict[version]['major_version'] = major_version
@@ -51,6 +52,9 @@ def get_xml_conf_dict(tree):
 
         # get lifecycle
         docset_dict[version]['lifecycle'] = docset.attrib['lifecycle']
+
+        # get setid
+        docset_dict[version]['setid'] = docset.attrib['setid']
 
         # get git remote url
         git_url = docset.xpath('./builddocs/git/remote')[0].text

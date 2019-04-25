@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 import ini_parse
 import xmlconfig_algo
 import os
@@ -119,7 +119,7 @@ def build_docset(name, major, minor, lang):
                 docset_dict["lang"] = lang
                 docset_dict["product"] = product_dict['shortname'].lower()
                 docset_dict["target"] = "test"
-                docset_dict["docset"] = product_dict['docsets'][version]['language'][lang]['branch']
+                docset_dict["docset"] = product_dict['docsets'][version]['setid']
                 docset_list = [docset_dict]
                 new_docset_list = str(docset_list).replace("'", "\"")
 
@@ -134,10 +134,9 @@ def build_docset(name, major, minor, lang):
                     c.perform()
                     print(pycurl.RESPONSE_CODE)
                     c.close()
-                    #docserv_json = json.loads(config.docserv_json_file)
-                    return render_template('/queue.html')
                 except pycurl.error as err:
                     return f"POST Request failed. {err}"
+                return redirect(url_for('show_queue'))
 
 @app.route('/queue')
 def show_queue():
