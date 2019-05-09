@@ -1,9 +1,10 @@
 import configparser
+import config
 
 # initialize the parser
 def GetParser():
     parser = configparser.ConfigParser()
-    parser.read("docserv-config/docserv-local-test.ini")
+    parser.read(config.docserv_conf_file)
     return parser
 
 # get first valid server section
