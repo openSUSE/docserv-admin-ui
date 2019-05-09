@@ -146,7 +146,7 @@ def show_queue():
     try:
         while(True):
             # fetch the JSON data from DocServ
-            r = requests.get('http://localhost:3000')
+            r = requests.get(config.docserv_instance_adress)
             data = r.json()
 
             # fill the status lists
