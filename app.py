@@ -20,13 +20,16 @@ app.jinja_env.add_extension('jinja2.ext.do')
 product_names = []
 for file in os.listdir(config.product_xml_dir):
     # parse the xml_file and get the actual shortname of the product
-    try:
-        file_tree = etree.parse(config.product_xml_dir+file)
-        shortname = file_tree.xpath("./shortname")[0].text #remove './'
-        # add the product shortname to the list of productnames
-        product_names.append(file_tree.xpath("./shortname")[0].text.lower())
-    except etree.XMLSyntaxError:
-        print(f'{file} is no valid XML file.')
+    if file.endswith('.xml'):
+        try:
+            file_tree = etree.parse(config.product_xml_dir+file)
+            shortname = file_tree.xpath("./shortname")[0].text #remove './'
+            # add the product shortname to the list of productnames
+            product_names.append(file_tree.xpath("./shortname")[0].text.lower())
+        except etree.XMLSyntaxError:
+            print(f'{file} is no valid XML file.')
+    else:
+        continue
 
 # basic routes
 @app.route("/")
