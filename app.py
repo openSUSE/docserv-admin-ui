@@ -126,7 +126,7 @@ def build_docset(name, major, minor, lang):
                 # create curl command and try to send it to DocServ
                 try:
                     c = pycurl.Curl()
-                    c.setopt(pycurl.URL, 'http://localhost:3000')
+                    c.setopt(pycurl.URL, config.docserv_instance_adress)
                     c.setopt(pycurl.HTTPHEADER, ['Accept: application/json'])
                     c.setopt(pycurl.POSTFIELDS, new_docset_list)
                     c.setopt(pycurl.POST, 1)
