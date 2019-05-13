@@ -7,11 +7,14 @@
     </head>
 
     <body>
-        <div class="sidebar">
-            {% for product in products %}
-                <a href="/{{product.lower()}}">{{product}}</a>
-            {% endfor %}
-        </div>
+            <div class="sidebar">
+                <img src="../static/images/SUSE_icon_reverse.png" alt="suse_logo" width="90" height="40"/>
+                <a href="/">Start Page</a>
+                <b>Products:</b>
+                {% for product in products %}
+                    <a href="/{{product.lower()}}">{{product}}</a>
+                {% endfor %}
+            </div>
 
         <div class="main">
            <p>Configuration for product {{product_name}} not found.</p>

@@ -6,9 +6,23 @@
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color:#0D2C40;
   overflow-x: hidden;
   padding-top: 20px;
+}
+
+.sidebar b {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #f1f1f1;
+  display: block;
+}
+
+.sidebar img {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  display: block;
 }
 
 .sidebar a {
