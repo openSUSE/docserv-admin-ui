@@ -57,7 +57,8 @@ def get_xml_conf_dict(tree):
         docset_dict[version]['setid'] = docset.attrib['setid']
 
         # get git remote url
-        git_url = docset.xpath('./builddocs/git/remote')[0].text
+        git_obj = docset.xpath('./builddocs/git')[0]
+        git_url = git_obj.attrib['remote']
         docset_dict[version]['git_url'] = git_url
 
         # get docset languages
