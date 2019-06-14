@@ -33,6 +33,7 @@
 
             <details>
                     <summary>{{lang}}</summary>
+                    <p><b><a href="{{url_for('build_docset', major=major, minor=minor, lang=lang, name=shortname.lower())}}">Build!</a></b></p>
                     <p><b>Branch:</b>{{doc_dict['docsets'][product_version]['language'][lang]['branch']}}</p>
 
                     <!--display deliverables-->
@@ -51,7 +52,6 @@
                                 {% do docset_dict.update({"lang": lang}) %}
                                 {% do docset_dict.update({"product": shortname.lower()}) %}
                                 {% do docset_dict.update({"target": "test"}) %}
-                                <a href="{{url_for('build_docset', major=major, minor=minor, lang=lang, name=shortname.lower())}}">Build me.</a>
 
                                 <!--display subdeliverables-->
                                 <details>
@@ -65,7 +65,9 @@
                     </details>
                 </details>
             {% endfor %}
+
         </div>
+        <p><b><a href="{{url_for('build_docset', major=major, minor=minor, lang=lang, name=shortname.lower())}}">Build!</a></b></p>
 
     </body>
 </html>

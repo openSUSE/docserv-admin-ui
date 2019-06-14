@@ -153,27 +153,29 @@ def show_queue():
             data = r.json()
 
             # fill the status lists
-            for x in data[0]['deliverables']:
-                if data[0]['deliverables'][x]['status'] == 'building':
-                    building.append({
-                        'dc': data[0]['deliverables'][x]['dc'],
-                        'status': data[0]['deliverables'][x]['status'],
-                        'format': data[0]['deliverables'][x]['build_format'],
-                        'title': data[0]['deliverables'][x]['title']})
-                if data[0]['deliverables'][x]['status'] == 'fail':
-                    fail.append({
-                        'dc': data[0]['deliverables'][x]['dc'],
-                        'status': data[0]['deliverables'][x]['status'],
-                        'format': data[0]['deliverables'][x]['build_format'],
-                        'title': data[0]['deliverables'][x]['title']})
-                if data[0]['deliverables'][x]['status'] == 'success':
-                    success.append({
-                        'dc': data[0]['deliverables'][x]['dc'],
-                        'status': data[0]['deliverables'][x]['status'],
-                        'format': data[0]['deliverables'][x]['build_format'],
-                        'title': data[0]['deliverables'][x]['title']})
+            try:
+                for x in data[0]['deliverables']:
+                    if data[0]['deliverables'][x]['status'] == 'building':
+                        building.append({
+                            'dc': data[0]['deliverables'][x]['dc'],
+                            'status': data[0]['deliverables'][x]['status'],
+                            'format': data[0]['deliverables'][x]['build_format'],
+                            'title': data[0]['deliverables'][x]['title']})
+                    if data[0]['deliverables'][x]['status'] == 'fail':
+                        fail.append({
+                            'dc': data[0]['deliverables'][x]['dc'],
+                            'status': data[0]['deliverables'][x]['status'],
+                            'format': data[0]['deliverables'][x]['build_format'],
+                            'title': data[0]['deliverables'][x]['title']})
+                    if data[0]['deliverables'][x]['status'] == 'success':
+                        success.append({
+                            'dc': data[0]['deliverables'][x]['dc'],
+                            'status': data[0]['deliverables'][x]['status'],
+                            'format': data[0]['deliverables'][x]['build_format'],
+                            'title': data[0]['deliverables'][x]['title']})
+            except:
+                return "Please wait a few seconds and try refreshing the page while DocServ is generating the status data."
 
-            # render the queue page with the status data
             return render_template(
                 "/build_queue.html",
                 building=building,
@@ -181,7 +183,7 @@ def show_queue():
                 success=success,
                 products=product_names)
 
-            time.sleep(30)
+            time.sleep(5)
     except requests.ConnectionError:
         return "No JSON file from DocServ available. Make sure that DocServ is running.."
 
